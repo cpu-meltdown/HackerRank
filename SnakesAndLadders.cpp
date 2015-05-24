@@ -12,6 +12,7 @@ struct node {
 	int ladderTo = -1;
 	bool visited = 0;
 	bool snake = 0;
+	short index;
 };
 
 int dfs(node* a){
@@ -20,6 +21,11 @@ int dfs(node* a){
 	q.push(a[1]);
 	int i = 1;
 	while (!q.empty()){
+		if (q.front().ladderTo != -1){
+			if (q.front().distance < a[q.front().ladderTo].distance)
+				a[q.front().ladderTo].distance = q.front().distance;
+			q.push(a[q.front().ladderTo]);
+		}
 		
 	}
 	return 0;
@@ -30,6 +36,8 @@ int main(){
 	cin >> t;
 	int num1, num2, n, m;
 	node * a = new node[101];
+	for (int i=1; i<101; i++)
+		a[i].index = i;
 	while (t--){
 		cin >> n;
 		for (int i = 0; i < n; i++){
