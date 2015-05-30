@@ -16,7 +16,7 @@ struct node {
 };
 
 
-int dfs(node* a){
+int bfs(node* a){
 	queue<node> q;
 	a[1].distance = 0;
 	q.push(a[1]);
@@ -92,7 +92,7 @@ int main(){
 			}
 		}
 		if (count != 6)
-			cout << dfs(a) << endl;
+			cout << bfs(a) << endl;
 		else
 			cout << -1 << endl;
 		delete[] a;
