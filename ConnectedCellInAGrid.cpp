@@ -11,7 +11,7 @@ struct node {
 	short y;
 };
 
-int dfs(node **a, int i, int j, int m, int n){
+int bfs(node **a, int i, int j, int m, int n){
 	queue<node> q;
 	int currentRegion = 0;
 	currentRegion++;
@@ -82,7 +82,7 @@ int main(){
 	for (int i = 0; i < m; i++){
 		for (int j = 0; j < n; j++){
 			if (a[i][j].value == 1 && a[i][j].visited == false){
-				longestRegion = max(longestRegion, dfs(a, i, j, m, n));
+				longestRegion = max(longestRegion, bfs(a, i, j, m, n));
 			}
 		}
 	}
