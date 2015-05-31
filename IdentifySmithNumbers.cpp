@@ -35,13 +35,21 @@ int main()
 	int a[100001];
 	cin >> n;
 	primeFactors(a, n, count);
-	int sum1=0, sum2 = 0;
-	for (int i = 0; i < count; i++)
-		sum1 += a[i];
+	int sum1 = 0, sum2 = 0;
+	for (int i = 0; i < count; i++){
+		if (a[i] >= 10){
+			while (a[i]>0){
+				sum1 += a[i] % 10;
+				a[i] /= 10;
+			}
+		}
+		else
+			sum1 += a[i];
+	}
 	while (n != 0){
 		sum2 += n % 10;
 		n /= 10;
 	}
-	(sum2 == sum1) ? cout << 1 <<endl : cout << 0<<endl;
+	(sum2 == sum1) ? cout << 1 << endl : cout << 0 << endl;
 	return 0;
 }
