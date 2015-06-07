@@ -1,34 +1,71 @@
 #include <iostream>
-#include <vector>
-
+#include <string.h>
+#include <stdio.h>
+#define ll long long
 using namespace std;
 
-#define ll long long
-void LIS(vector<ll> a){
-	vector<vector<ll>> l(a.size());
-	l[0].push_back(a[0]);
-	for (int i = 1; i < a.size(); i++){
-		for (int j = 0; j < i; j++){
-			if ((a[j] < a[i]) && (l[i].size() < l[j].size()+1))
-				l[i] = l[j];
-		}
-		l[i].push_back(a[i]);
+// Binary search
+int GetCeilIndex(ll A[], int T[], int l, int r, int key) {
+	int m;
+
+	while (r - l > 1) {
+		m = l + (r - l) / 2;
+		if (A[T[m]] >= key)
+			r = m;
+		else
+			l = m;
 	}
-	ll max = 0;
-	for (int i = 0; i < l.size(); i++)
-		if (l[i].size() > max)
-			max = l[i].size();
-	cout << max;
+
+	return r;
 }
 
-int main(){
-	vector<ll> a;
-	ll n, number; 
-	cin >> n;
-	for (int i = 0; i < n; i++){
-		cin >> number;
-		a.push_back(number);
+int LongestIncreasingSubsequence(ll A[], int size) {
+	// Add boundary case, when array size is zero
+	// Depend on smart pointers
+
+	int *tailIndices = new int[size];
+	int *prevIndices = new int[size];
+	int len;
+
+	memset(tailIndices, 0, sizeof(tailIndices[0])*size);
+	memset(prevIndices, 0xFF, sizeof(prevIndices[0])*size);
+
+	tailIndices[0] = 0;
+	prevIndices[0] = -1;
+	len = 1; // it will always point to empty location
+	for (int i = 1; i < size; i++) {
+		if (A[i] < A[tailIndices[0]]) {
+			// new smallest value
+			tailIndices[0] = i;
+		}
+		else if (A[i] > A[tailIndices[len - 1]]) {
+			// A[i] wants to extend largest subsequence
+			prevIndices[i] = tailIndices[len - 1];
+			tailIndices[len++] = i;
+		}
+		else {
+			// A[i] wants to be a potential candidate of future subsequence
+			// It will replace ceil value in tailIndices
+			int pos = GetCeilIndex(A, tailIndices, -1, len - 1, A[i]);
+
+			prevIndices[i] = tailIndices[pos - 1];
+			tailIndices[pos] = i;
+		}
 	}
-	LIS(a);
+
+	delete[] tailIndices;
+	delete[] prevIndices;
+
+	return len;
+}
+
+int main() {
+	int n;
+	cin >> n;
+	ll * A = new ll[n];
+	for (int i = 0; i < n; i++)
+		cin >> A[i];
+	cout<<LongestIncreasingSubsequence(A, n);
+
 	return 0;
 }
