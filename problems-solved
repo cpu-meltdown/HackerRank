@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main (){
+  int a[100];
+  int n;
+  int best = 0, curr = 0, i = 0;
+  scanf("%d",&n);
+  for (i = 0; i < n; i++){
+    scanf ("%d", &a[i]);
+  }
+  
+  for (i = 0; i < n; i++){
+    curr = curr + a[i];
+    if (curr < 0)
+      curr = 0;
+    if (best < curr)
+      best = curr;
+  }
+  printf("%d\n", best);
+  return 0;
+}
